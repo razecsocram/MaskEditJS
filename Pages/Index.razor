@@ -1,0 +1,30 @@
+﻿@page "/"
+@inject IJSRuntime js
+
+<h1>Teste do JSRuntime</h1>
+<div class="form-group">
+    <input class="form-control form-control-sm" type="text" placeholder="CNPJ" maxlength="@tam" inputmode="numeric" id="CNPJ" @onkeyup='(()=>MaskNaoMoeda("00.000.000/0000-00", "CNPJ"))' />
+    <input class="form-control form-control-sm" type="text" placeholder="CPF" maxlength="@tam" inputmode="numeric" id="CPF" @onkeyup='(()=>MaskNaoMoeda("000.000.000-00", "CPF"))' />
+    <input class="form-control form-control-sm" type="text" placeholder="IE" maxlength="@tam" inputmode="numeric" id="IE" @onkeyup='(()=>MaskNaoMoeda("000.000.000.000", "IE"))' />
+    <input class="form-control form-control-sm" type="text" placeholder="DATA" maxlength="@tam" inputmode="numeric" id="DATA" @onkeyup='(()=>MaskNaoMoeda("00/00/0000", "DATA"))' />
+    <input class="form-control form-control-sm" type="text" placeholder="Telefone" maxlength="@tam" inputmode="numeric" id="Tel" @onkeyup='(()=>MaskNaoMoeda("(00) 00000-0000", "Tel"))' />
+    <input class="form-control form-control-sm" type="text" placeholder="CEP" maxlength="@tam" inputmode="numeric" id="CEP" @onkeyup='(()=>MaskNaoMoeda("00000-000", "CEP"))' />
+    <input class="form-control form-control-sm" type="text" placeholder="Decimal" maxlength="10" inputmode="numeric" id="Dec1" @onkeyup='(()=>MaskMoeda("Dec1",10,2))' />
+
+</div>
+
+@code{
+     private IJSObjectReference module;
+     private int tam = 1;
+    protected override async void OnInitialized()
+    {
+        module = await js.InvokeAsync<IJSObjectReference>("import", "./MaskEdit.js");
+    }
+    async Task MaskNaoMoeda(string mascara, string id){
+        tam=mascara.Length;
+        await module.InvokeVoidAsync("formatarNaoMoeda", mascara, id);
+    }
+    async Task MaskMoeda(string id, byte tam, byte ndec){
+        await module.InvokeVoidAsync("formatarMoeda",tam,ndec,id);
+    }
+}
