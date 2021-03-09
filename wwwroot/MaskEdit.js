@@ -14,6 +14,7 @@ export function formatarNaoMoeda(mascara, id){
     keyDownHandler = function() {
         if(input.value.length<=mascara.length){
             oldValue = input.value;
+            // document.getElementById(id).innerHTML = input.value;
         }
     },
     inputHandler = function() {
@@ -22,7 +23,7 @@ export function formatarNaoMoeda(mascara, id){
         const keyCode = char.charCodeAt(0);
         if((keyCode>47 && keyCode<58)){
             formataCampo(document.getElementById(id), mascara)
-        } 
+         } 
         else if(isNaN(keyCode)==false){
             document.getElementById(id).value = oldValue;
         } else{
@@ -62,6 +63,34 @@ export function formatarMoeda(tam, ndec, id){
     input.addEventListener('input', inputHandler);    
 }
 
+// export function Moeda2(id) {
+//     var elemento = document.getElementById(id);
+//     var valor = elemento.value;
+
+//     valor = valor + '';
+//     valor = parseInt(valor.replace(/[\D]+/g, ''));
+//     valor = valor + '';
+    
+//     console.log("valor1: " + valor.toString());
+
+//     valor = valor.replace(/([0-9]{2})$/g, ",$1");
+    
+//     console.log("valor2: " + valor.toString());
+
+//     if (valor.length > 6) {
+//         console.log(">6");
+
+//         valor = valor.replace(/([0-9]{3}),([0-9]{2}$)/g, ".$1,$2");
+    
+//         console.log("valor3: " + valor.toString());
+//     }
+    
+//     console.log("valor4: " + valor.toString());
+
+//     elemento.value = valor;
+//     if(valor == 'NaN') elemento.value = '';
+// }
+
 function Moeda(digitado, ndec) {
     digitado = digitado + '';
     digitado = parseInt(digitado.replace(/[\D]+/g, ''));
@@ -76,7 +105,7 @@ function Moeda(digitado, ndec) {
 function lenMenorSeis(buffer,ndec){
     switch (ndec) {
         case 0:
-            return buffer.replace(/([0-9]{0})$/g, ",$1");
+            return buffer.replace(/([0-9]{1})$/g, "$1");
         case 1:
             return buffer.replace(/([0-9]{1})$/g, ",$1");
         case 2:
@@ -91,7 +120,7 @@ function lenMenorSeis(buffer,ndec){
 function lenMaiorSeis(buffer,ndec) {
     switch (ndec) {
         case 0:
-            return buffer.replace(/([0-9]{3}),([0-9]{0}$)/g, ".$1,$2");
+            return buffer;
         case 1:
             return buffer.replace(/([0-9]{3}),([0-9]{1}$)/g, ".$1,$2");
         case 2:
@@ -102,35 +131,6 @@ function lenMaiorSeis(buffer,ndec) {
             return buffer.replace(/([0-9]{3}),([0-9]{4}$)/g, ".$1,$2");
     }
 }
-
-    // export function formatarMoeda2(id) {
-    //     var elemento = document.getElementById(id);
-    //     var valor = elemento.value;
-
-    //     valor = valor + '';
-    //     valor = parseInt(valor.replace(/[\D]+/g, ''));
-    //     valor = valor + '';
-        
-    //     console.log("valor1: " + valor.toString());
-
-    //     valor = valor.replace(/([0-9]{2})$/g, ",$1");
-        
-    //     console.log("valor2: " + valor.toString());
-
-    //     if (valor.length > 6) {
-    //         console.log(">6");
-
-    //         valor = valor.replace(/([0-9]{3}),([0-9]{2}$)/g, ".$1,$2");
-        
-    //         console.log("valor3: " + valor.toString());
-    //     }
-        
-    //     console.log("valor4: " + valor.toString());
-
-    //     elemento.value = valor;
-    //     if(valor == 'NaN') elemento.value = '';
-    // }
-
 //formata de forma generica os campos
 function formataCampo(campo, Mascara) { 
     var boleanoMascara; 
@@ -144,8 +144,6 @@ function formataCampo(campo, Mascara) {
                                 (Mascara.charAt(i) == ".") || 
                                 (Mascara.charAt(i) == "/") ||
                                 (Mascara.charAt(i)== ",") ||
-                                (Mascara.charAt(i) == "(") || 
-                                (Mascara.charAt(i) == ")") || 
                                 (Mascara.charAt(i) == " "))
         if (boleanoMascara) { 
             NovoValorCampo += Mascara.charAt(i); 
@@ -156,4 +154,4 @@ function formataCampo(campo, Mascara) {
         }              
     } 
     campo.value = NovoValorCampo;
-    }
+}
